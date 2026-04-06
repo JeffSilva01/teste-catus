@@ -1,17 +1,19 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "@/app/components/ui";
 import { ProductCard } from "./ProductCard";
+import { fetchProducts } from "@/app/lib/api";
 import type { ApiProduct } from "@/app/types";
 
-interface ProductCarouselProps {
-  products: ApiProduct[];
-}
-
-export function ProductCarousel({ products }: ProductCarouselProps) {
+export function ProductCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [products, setProducts] = useState<ApiProduct[]>([]);
+
+  useEffect(() => {
+    fetchProducts().then(setProducts);
+  }, []);
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {

@@ -1,16 +1,13 @@
 import { HeroSlider, ProductCarousel, ProductGrid, Newsletter } from "@/app/components/home";
-import { fetchProducts } from "@/app/lib/api";
 
 export const dynamic = 'force-dynamic';
 
-export default async function Home() {
-  const products = await fetchProducts();
-
+export default function Home() {
   return (
     <>
       <HeroSlider />
-      <ProductCarousel products={products} />
-      <ProductGrid products={products} />
+      <ProductCarousel />
+      <ProductGrid />
       <Newsletter />
     </>
   );
