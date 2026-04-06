@@ -10,10 +10,20 @@ import type { ApiProduct } from "@/app/types";
 export function ProductCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [products, setProducts] = useState<ApiProduct[]>([]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetchProducts().then(setProducts);
+    fetchProducts()
+      .then(setProducts)
+      .catch((err) => {
+        console.error("Failed to fetch products:", err);
+        setError(true);
+      });
   }, []);
+
+  if (error || products.length === 0) {
+    return null;
+  }
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {

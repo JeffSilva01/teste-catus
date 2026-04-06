@@ -6,7 +6,17 @@ import { fetchProducts } from "@/app/lib/api";
 export const dynamic = 'force-dynamic';
 
 export async function ProductGrid() {
-  const products = await fetchProducts();
+  let products: Awaited<ReturnType<typeof fetchProducts>> = [];
+  
+  try {
+    products = await fetchProducts();
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+  }
+
+  if (products.length === 0) {
+    return null;
+  }
 
   return (
     <section className="py-12 md:py-16 lg:py-20 bg-[var(--color-background)]">
